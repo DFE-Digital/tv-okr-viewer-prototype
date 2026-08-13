@@ -1,6 +1,20 @@
 -- TVS OKR Roadmap Viewer v11.3 activity migration
 -- Replaces the two temporary test rows with the 130 activities embedded in v11.3.
 
+CREATE TABLE IF NOT EXISTS activities (
+  id SERIAL PRIMARY KEY,
+  objective TEXT NOT NULL,
+  key_result TEXT NOT NULL,
+  workstream TEXT NOT NULL,
+  activity TEXT NOT NULL,
+  start_sprint INTEGER,
+  end_sprint INTEGER,
+  status TEXT NOT NULL DEFAULT 'Not started',
+  delivery_link TEXT,
+  depends_on TEXT,
+  schedule_basis TEXT
+);
+
 BEGIN;
 
 TRUNCATE TABLE activities RESTART IDENTITY;
