@@ -17,15 +17,27 @@ module Api
       }
     end
 
-    def create
-      key_result = KeyResult.new(key_result_params)
+ def create
+  key_result = KeyResult.new(key_result_params)
 
-      if key_result.save
-        render json: key_result, status: :created
-      else
-        render json: { errors: key_result.errors.full_messages }, status: :unprocessable_entity
-      end
+  if key_result.position.blank? || key_result.position.zero?
+    key_result.position =
+      (KeyResult.where(objective_id: key_result.objective_id).maximum(:position) || 0) + 1
+  end
+
+  if key_result.save
+    Workstream.find_each do |workstream|
+      KeyResultWorkstream.find_or_create_by!(
+        key_result: key_result,
+        workstream: workstream
+      )
     end
+
+    render json: key_result, status: :created
+  else
+    render json: { errors: key_result.errors.full_messages }, status: :unprocessable_entity
+  end
+end
 
     def update
       key_result = KeyResult.find(params[:id])

@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     resources :activities, only: %i[index create update destroy]
     resources :objectives, only: %i[index create update destroy]
     resources :key_results, only: %i[index create update destroy]
+    resources :workstreams, only: %i[index create update destroy]
+    resources :key_result_workstreams, only: %i[create destroy]
   end
 
   scope via: :all do
