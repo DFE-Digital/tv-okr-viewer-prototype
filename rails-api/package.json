@@ -1,0 +1,18 @@
+{
+  "engines": {
+    "node": "^24.14.0"
+  },
+  "name": "app",
+  "private": true,
+  "devDependencies": {
+    "esbuild": "^0.28.2"
+  },
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --format=esm --outdir=app/assets/builds --public-path=/assets",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps"
+  },
+  "dependencies": {
+    "govuk-frontend": "^6.4.0",
+    "sass": "^1.102.0"
+  }
+}

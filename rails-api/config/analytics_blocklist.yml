@@ -1,0 +1,46 @@
+---
+:shared:
+  :workstreams:
+  - id
+  - title
+  - colour
+  - position
+  - active
+  - created_at
+  - updated_at
+  :objectives:
+  - id
+  - title
+  - position
+  - active
+  - created_at
+  - updated_at
+  :key_result_workstreams:
+  - id
+  - key_result_id
+  - workstream_id
+  - position
+  - created_at
+  - updated_at
+  :key_results:
+  - id
+  - objective_id
+  - title
+  - position
+  - active
+  - created_at
+  - updated_at
+  :activities:
+  - id
+  - key_result_id
+  - workstream
+  - activity
+  - start_sprint
+  - end_sprint
+  - status
+  - delivery_link
+  - depends_on
+  - schedule_basis
+  - created_at
+  - updated_at
+  - key_result_workstream_id
