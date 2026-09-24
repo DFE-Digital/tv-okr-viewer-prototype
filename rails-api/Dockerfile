@@ -49,7 +49,7 @@ WORKDIR /app
 # node: node includes yarn as a package manager
 # postgresql-dev: postgres driver and libraries
 # yaml-dev: psych issues
-RUN apk add --no-cache build-base postgresql17-dev yaml-dev
+RUN apk add --no-cache build-base postgresql17-dev yaml-dev git
 RUN npm install -g corepack
 RUN corepack enable
 
