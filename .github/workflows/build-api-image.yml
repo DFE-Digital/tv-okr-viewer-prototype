@@ -26,8 +26,8 @@ jobs:
         uses: DFE-Digital/github-actions/build-docker-image@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile-path: images/postgres-backup/Dockerfile
-          context: images/postgres-backup
+          dockerfile-path: rails-api/Dockerfile
+          context: rails-api
           reuse-cache: true
           snyk-token: ${{ secrets.SNYK_TOKEN }}
           max-cache: false
