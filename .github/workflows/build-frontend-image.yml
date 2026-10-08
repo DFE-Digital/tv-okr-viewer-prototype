@@ -1,4 +1,4 @@
-name: Build API Docker image
+name: Build Frontend Docker image
 
 on:
   workflow_dispatch:
@@ -10,7 +10,7 @@ permissions:
   pull-requests: write
 
 env:
-  DOCKER_IMAGE: ghcr.io/dfe-digital/tv-okr-viewer-prototype-api
+  DOCKER_IMAGE: ghcr.io/dfe-digital/tv-okr-viewer-prototype-frontend
 
 jobs:
   build-no-cache:
@@ -26,8 +26,8 @@ jobs:
         uses: DFE-Digital/github-actions/build-docker-image@master
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          dockerfile-path: rails-api/Dockerfile
-          context: rails-api
+          dockerfile-path: Dockerfile
+          context: .
           reuse-cache: true
           snyk-token: ${{ secrets.SNYK_TOKEN }}
           max-cache: false

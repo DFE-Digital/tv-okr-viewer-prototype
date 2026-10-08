@@ -49,6 +49,7 @@ WORKDIR /app
 # node: node includes yarn as a package manager
 # postgresql-dev: postgres driver and libraries
 # yaml-dev: psych issues
+# git: required for gems sourced from git repositories
 RUN apk add --no-cache build-base postgresql17-dev yaml-dev git
 RUN npm install -g corepack
 RUN corepack enable
@@ -71,6 +72,9 @@ RUN yarn install --immutable
 
 # Copy all files to /app (except what is defined in .dockerignore)
 COPY . .
+
+# Make bin scripts executable
+RUN chmod +x ./bin/*
 
 # Precompile assets
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
