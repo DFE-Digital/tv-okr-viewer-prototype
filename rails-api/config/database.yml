@@ -58,9 +58,19 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
-  port: <%= ENV.fetch("POSTGRES_PORT", 5432) %>
-  database: <%= ENV.fetch("POSTGRES_DB", "tvs_roadmap_rails") %>
-  username: <%= ENV.fetch("POSTGRES_USER", "tvs_roadmap") %>
-  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  primary: &primary_production
+    <<: *default
+    host: <%= ENV.fetch("POSTGRES_HOST", "localhost") %>
+    port: <%= ENV.fetch("POSTGRES_PORT", 5432) %>
+    database: <%= ENV.fetch("POSTGRES_DB", "tvs_roadmap_rails") %>
+    username: <%= ENV.fetch("POSTGRES_USER", "tvs_roadmap") %>
+    password: <%= ENV["POSTGRES_PASSWORD"] %>
+
+  cache:
+    <<: *primary_production
+
+  queue:
+    <<: *primary_production
+
+  cable:
+    <<: *primary_production
