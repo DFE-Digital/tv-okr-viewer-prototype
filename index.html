@@ -603,6 +603,7 @@ function render(){
        'kr',
        `<button class="toggle" data-key="${esc(kk)}">${collapsed.has(kk)?'+':'−'}</button>`+
        `<span class="row-title clickable-label" data-toggle-key="${esc(kk)}"><span class="name">${esc(kr)}</span></span>`+
+       `<button class="icon-btn add-context-activity" data-objective="${esc(obj)}" data-key-result="${esc(kr)}" title="Add activity to this key result" aria-label="Add activity">＋</button>`+
        `<button class="icon-btn edit-key-result" data-key-result-id="${keyResult.id}" data-objective-id="${objective.id}" data-key-result-title="${esc(kr)}" title="Edit key result" aria-label="Edit key result">✎</button>`,
        krange,
        'kr'
@@ -945,7 +946,7 @@ const startSelect=document.getElementById('activityStart');
 const endSelect=document.getElementById('activityEnd');
 
 function populateActivityFormOptions(){
-  const objectives=uniq(data.map(x=>x.objective));
+  const objectives=hierarchy.map(x=>x.title);
   objectiveSelect.innerHTML=objectives.map(x=>`<option>${esc(x)}</option>`).join('');
   workstreamSelect.innerHTML=Object.keys(colors).map(x=>`<option>${esc(x)}</option>`).join('');
   const opts='<option value=""></option>'+sprints.map(s=>`<option value="${s.number}">${s.label}</option>`).join('');
@@ -954,7 +955,8 @@ function populateActivityFormOptions(){
 }
 function updateKeyResultOptions(selected=''){
   const objective=objectiveSelect.value;
-  const krs=uniq(data.filter(x=>x.objective===objective).map(x=>x.keyResult));
+  const selectedObjective=hierarchy.find(x=>x.title===objective);
+  const krs=(selectedObjective?.keyResults||[]).map(x=>x.title);
   keyResultSelect.innerHTML=krs.map(x=>`<option ${x===selected?'selected':''}>${esc(x)}</option>`).join('');
 }
 objectiveSelect.onchange=()=>updateKeyResultOptions();
@@ -1040,6 +1042,16 @@ if(editingActivityId===null){
  const created=await response.json();
 
 data.push(created);
+
+// Refresh the hierarchy so newly created workstreams appear immediately.
+try {
+  const hierarchyResponse=await fetch('/api/objectives');
+  if(hierarchyResponse.ok){
+    hierarchy=await hierarchyResponse.json();
+  }
+} catch(error) {
+  console.warn('Activity saved, but hierarchy refresh failed:', error);
+}
 
     document.getElementById('collabStatus').textContent=
       'Saved to PostgreSQL';
